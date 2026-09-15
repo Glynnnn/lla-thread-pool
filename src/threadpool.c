@@ -23,14 +23,14 @@ void threadpool_init(threadpool_t *pool){
     return;
 }
 
-// void threadpool_destroy(threadpool_t *pool){
-//     return ;
-// }
-// void threadpool_add_task(threadpool_t *pool, void (*function)(void*), void* arg){
-//     return ;
+void threadpool_destroy(threadpool_t *pool){
+    return ;
+}
+void threadpool_add_task(threadpool_t *pool, void (*function)(void*), void* arg){
+    return ;
 
-// }
-// void example_task(void* arg){
-//     return ;
+}
+void example_task(void* arg){
+    return ;
 
-// }
+}
