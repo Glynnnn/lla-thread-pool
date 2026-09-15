@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#include "threadpool.h"
+#include "inc/threadpool.h"
 
 
 void threadpool_init(threadpool_t *pool){
