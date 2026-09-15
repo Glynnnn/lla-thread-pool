@@ -26,10 +26,10 @@ typedef struct{
 
     // task info
     task_t queue[QUEUE_SIZE];
-    int queue_size;
+    int queued;
     int queue_front;
     int queue_back;
-    int queue_stop;
+    int stop;
 
 } threadpool_t;
 
