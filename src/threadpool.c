@@ -4,10 +4,9 @@
 
 #include "../inc/threadpool.h"
 
-void example_task(void *arg){
-    return;
+void* thread_func(void *arg){
+    return NULL;
 }
-
 
 void threadpool_init(threadpool_t *pool){
     pthread_mutex_init(&(pool->lock), NULL);
@@ -19,7 +18,7 @@ void threadpool_init(threadpool_t *pool){
     pool->stop = 0;
 
     for (int i = 0; i < THREADS; i++){
-        pthread_create(&(pool->threads[i]), NULL, example_task, pool);
+        pthread_create(&(pool->threads[i]), NULL, thread_func, pool);
     }
     return;
 }
