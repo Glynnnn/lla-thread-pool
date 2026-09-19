@@ -40,6 +40,9 @@ void* thread_func(void *arg){
 }
 
 void threadpool_init(threadpool_t *pool){
+
+    if (pool == NULL) return;
+
     pthread_mutex_init(&(pool->lock), NULL);
     pthread_cond_init(&(pool->notify), NULL);
 
@@ -55,6 +58,9 @@ void threadpool_init(threadpool_t *pool){
 }
 
 void threadpool_destroy(threadpool_t *pool){
+
+    if (pool == NULL) return;
+
     pthread_mutex_lock(&(pool->lock));
     pool->stop = 1;
     pthread_cond_broadcast(&(pool->notify));
@@ -73,7 +79,14 @@ void threadpool_destroy(threadpool_t *pool){
 
 void threadpool_add_task(threadpool_t *pool, void (*function)(void*), void* arg){
     
+    if (pool == NULL) return;
+
     pthread_mutex_lock(&(pool->lock));
+
+    if (function == NULL){
+        pthread_mutex_unlock(&(pool->lock));
+        return;
+    }
 
     if (pool->queued < QUEUE_SIZE){
         // add the fn to end of queue
@@ -90,7 +103,7 @@ void threadpool_add_task(threadpool_t *pool, void (*function)(void*), void* arg)
     }
     else{
         printf("Queue is full\n");
-        // free(arg);
+        free(arg);
     }
     // unlock thread
     pthread_mutex_unlock(&(pool->lock));
@@ -100,5 +113,5 @@ void example_task(void* arg) {
     int* num = (int*)arg;
     printf("Processing task %d\n", *num);
     sleep(1);  // Simulate task work
-    // free(arg);
+    free(arg);
 }
