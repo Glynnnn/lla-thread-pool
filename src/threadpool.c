@@ -11,6 +11,8 @@ void* thread_func(void *arg){
 
     // thread runs constantly
     while (1){
+
+        pthread_mutex_lock(&(pool->lock));
         
         // if no tasks then wait for notify
         while (pool->queued == 0 && pool->stop != 1){
@@ -32,6 +34,8 @@ void* thread_func(void *arg){
         // run the task 
         task.fn(task.arg);
     }
+
+    return NULL;
 
 }
 
@@ -95,4 +99,5 @@ void example_task(void* arg) {
     int* num = (int*)arg;
     printf("Processing task %d\n", *num);
     sleep(1);  // Simulate task work
+    free(arg);
 }
