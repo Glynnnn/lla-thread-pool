@@ -4,7 +4,7 @@
 #include <pthread.h>
 
 
-#define THREADS 8
+#define THREADS 16
 #define QUEUE_SIZE 100
 
 // the task type
