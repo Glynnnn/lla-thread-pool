@@ -90,7 +90,7 @@ void threadpool_add_task(threadpool_t *pool, void (*function)(void*), void* arg)
     }
     else{
         printf("Queue is full\n");
-        free(arg);
+        // free(arg);
     }
     // unlock thread
     pthread_mutex_unlock(&(pool->lock));
@@ -100,5 +100,5 @@ void example_task(void* arg) {
     int* num = (int*)arg;
     printf("Processing task %d\n", *num);
     sleep(1);  // Simulate task work
-    free(arg);
+    // free(arg);
 }
