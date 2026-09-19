@@ -5,18 +5,20 @@
 
 #include "threadpool.h"
 
-int main(){
 
+int main() {
     threadpool_t pool;
     threadpool_init(&pool);
 
-    for (int i = 0; i < 100; i++){
-        int *val = malloc(sizeof(int));
-        *val = i;
-        threadpool_add_task(&pool, example_task, val);
+    // Add tasks to the thread pool
+    for (int i = 0; i < 100; i++) {
+        int* task_num = malloc(sizeof(int));
+        *task_num = i;
+        threadpool_add_task(&pool, example_task, task_num);
     }
 
-    sleep(15);
+    // Let tasks complete
+    sleep(5);
 
     threadpool_destroy(&pool);
 

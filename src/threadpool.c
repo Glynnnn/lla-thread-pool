@@ -91,9 +91,8 @@ void threadpool_add_task(threadpool_t *pool, void (*function)(void*), void* arg)
     pthread_mutex_unlock(&(pool->lock));
     return;
 }
-void example_task(void* arg){
-    int *num = (int*)arg;
-    printf("This Task is running on thread: %d\n", *num);
-    sleep(1);
-    // free(arg);
+void example_task(void* arg) {
+    int* num = (int*)arg;
+    printf("Processing task %d\n", *num);
+    sleep(1);  // Simulate task work
 }
