@@ -5,7 +5,7 @@
 
 
 #define THREADS 16
-#define QUEUE_SIZE 100
+#define QUEUE_SIZE 10
 
 // the task type
 

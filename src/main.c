@@ -11,7 +11,7 @@ int main() {
     threadpool_init(&pool);
 
     // Add tasks to the thread pool
-    for (int i = 0; i < 15; i++) {
+    for (int i = 0; i < 100; i++) {
         int* task_num = malloc(sizeof(int));
         if (task_num == NULL){
             printf("Malloc Failed\n");

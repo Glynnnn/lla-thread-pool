@@ -90,6 +90,7 @@ void threadpool_add_task(threadpool_t *pool, void (*function)(void*), void* arg)
     }
     else{
         printf("Queue is full\n");
+        free(arg);
     }
     // unlock thread
     pthread_mutex_unlock(&(pool->lock));
