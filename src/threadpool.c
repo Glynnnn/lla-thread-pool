@@ -83,7 +83,7 @@ void threadpool_add_task(threadpool_t *pool, void (*function)(void*), void* arg)
 
     pthread_mutex_lock(&(pool->lock));
 
-    if (function == NULL){
+    if (function == NULL || arg == NULL){
         pthread_mutex_unlock(&(pool->lock));
         return;
     }
