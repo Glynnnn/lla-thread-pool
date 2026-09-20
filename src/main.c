@@ -6,6 +6,16 @@
 #include "threadpool.h"
 
 
+void example_task(void *arg){
+
+    int *num = (int*)arg;
+    printf("Process is running on: %d\n", *num);
+    sleep(1);
+    free(arg);
+
+}
+
+
 int main() {
     threadpool_t pool;
     threadpool_init(&pool);
@@ -18,7 +28,7 @@ int main() {
             continue;
         }
         *task_num = i;
-        threadpool_add_task(&pool, example_task, task_num);
+        threadpool_add_function(&pool, example_task, task_num);
 
     }
 
