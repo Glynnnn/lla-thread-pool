@@ -5,40 +5,35 @@
 
 #include "../inc/threadpool.h"
 
-void* thread_func(void *arg){
+void *thread_func(void *arg)
+{
+    threadpool_t *pool = (threadpool_t *)arg;
 
-    threadpool_t *pool = (threadpool_t*)arg;
-
-    // thread runs constantly
-    while (1){
+    while (1) {
 
         pthread_mutex_lock(&(pool->lock));
-        
-        // if no tasks then wait for notify
-        while (pool->queued == 0 && pool->stop != 1){
-            printf("Thread goes to sleep\n");
+
+        while (pool->queued == 0 && pool->stop != 1) {
             pthread_cond_wait(&(pool->notify), &(pool->lock));
         }
-        // if stop is set leave the thread
-        if (pool->stop == 1 ){
+
+        if (pool->stop == 1 && pool->queued == 0) {
             pthread_mutex_unlock(&(pool->lock));
             pthread_exit(NULL);
         }
-        
-        // update values
+
         task_t task = pool->queue[pool->queue_front];
+
         pool->queued--;
-        pool->queue_front = (pool->queue_front + 1) % QUEUE_SIZE;
-        // unlock mutex
+        pool->queue_front =
+            (pool->queue_front + 1) % QUEUE_SIZE;
+
         pthread_mutex_unlock(&(pool->lock));
 
-        // run the task 
-        // task.fn(task.arg);
-        (*(task.fn))(task.arg);
+        task.fn(task.arg);
     }
 
     return NULL;
-
 }
 
 void threadpool_init(threadpool_t *pool){
@@ -90,13 +85,14 @@ void threadpool_add_task(threadpool_t *pool, void (*function)(void*), void* arg)
         return;
     }
 
+    int next_rear = (pool->queue_back + 1) % QUEUE_SIZE;
     if (pool->queued < QUEUE_SIZE){
         // add the fn to end of queue
         pool->queue[pool->queue_back].fn = function;
         pool->queue[pool->queue_back].arg = arg;
     
         // update queued
-        pool->queue_back = (pool->queue_back + 1) % QUEUE_SIZE;
+        pool->queue_back = next_rear;
         pool->queued++;
     
         // signal notify
@@ -115,5 +111,8 @@ void example_task(void* arg) {
     int* num = (int*)arg;
     printf("Processing task %d\n", *num);
     sleep(1);  // Simulate task work
+    printf("More work\n");
+    sleep(1);
+
     // free(arg);
 }
