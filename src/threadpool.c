@@ -7,6 +7,8 @@
 
 void *thread_func(void *arg)
 {
+    if (arg == NULL) return;
+
     threadpool_t *pool = (threadpool_t *)arg;
 
     while (1) {
@@ -113,11 +115,10 @@ void threadpool_add_task(threadpool_t *pool, void (*function)(void*), void* arg)
     return;
 }
 void example_task(void* arg) {
+    if (arg == NULL) return;
     int* num = (int*)arg;
     printf("Processing task %d\n", *num);
     sleep(1);  // Simulate task work
-    printf("More work\n");
-    sleep(1);
 
     // free(arg);
 }
