@@ -16,6 +16,7 @@ void* thread_func(void *arg){
         
         // if no tasks then wait for notify
         while (pool->queued == 0 && pool->stop != 1){
+            printf("Thread goes to sleep\n");
             pthread_cond_wait(&(pool->notify), &(pool->lock));
         }
         // if stop is set leave the thread
@@ -32,7 +33,8 @@ void* thread_func(void *arg){
         pthread_mutex_unlock(&(pool->lock));
 
         // run the task 
-        task.fn(task.arg);
+        // task.fn(task.arg);
+        (*(task.fn))(task.arg);
     }
 
     return NULL;
