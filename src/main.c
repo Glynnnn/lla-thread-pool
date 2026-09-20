@@ -5,10 +5,6 @@
 
 #include "threadpool.h"
 
-void test_task(void *arg)
-{
-    sleep(2);
-}
 
 int main() {
     threadpool_t pool;
@@ -27,7 +23,7 @@ int main() {
     }
 
     // Let tasks complete
-    // sleep(5);
+    sleep(5);
 
     threadpool_destroy(&pool);
 

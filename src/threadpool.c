@@ -74,8 +74,6 @@ void threadpool_destroy(threadpool_t *pool){
 
 }
 
-
-
 void threadpool_add_task(threadpool_t *pool, void (*function)(void*), void* arg){
     
     if (pool == NULL) return;
@@ -86,11 +84,6 @@ void threadpool_add_task(threadpool_t *pool, void (*function)(void*), void* arg)
         pthread_mutex_unlock(&(pool->lock));
         return;
     }
-
-    // if (function == NULL){
-    //     pthread_mutex_unlock(&(pool->lock));
-    //     return;
-    // }
 
     int next_rear = (pool->queue_back + 1) % QUEUE_SIZE;
     if (pool->queued < QUEUE_SIZE){
@@ -114,11 +107,12 @@ void threadpool_add_task(threadpool_t *pool, void (*function)(void*), void* arg)
     pthread_mutex_unlock(&(pool->lock));
     return;
 }
+
 void example_task(void* arg) {
     if (arg == NULL) return;
     int* num = (int*)arg;
-    printf("Processing task %d\n", *num);
     sleep(1);  // Simulate task work
+    printf("Task Processed: %d\n", *num);
 
     // free(arg);
 }
